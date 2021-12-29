@@ -418,8 +418,8 @@ int main(int argc, char **argv)
 	printf("podaj tryb");
 	fflush(stdout);
 	scanf("%c",tryb);
-	printf("\n %d \n",tryb);
-	if(*tryb == 'a'){
+	printf("\n %d  asd  %c\n",tryb,tryb);
+	if(tryb == 'a'){
 		printf(" a działa ");
 		int					listenfd, connfd;
 		pid_t				childpid;
