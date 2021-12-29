@@ -482,6 +482,8 @@ int main(int argc, char **argv)
 					exit(1);
 			}
 
+			printf("podłączył się pierwszy: %d",connfd);
+
 			if ( (connfd_do = accept(listenfd, (SA *) &cliaddr, &clilen)) < 0) {
 				if (errno == EINTR)
 					continue;		/* back to for() */
@@ -489,7 +491,7 @@ int main(int argc, char **argv)
 					perror("accept error confd_do");
 					exit(1);
 			}
-
+			printf("podłączył się drugi: %d",connfd_do);
 
 			if ( (childpid = fork()) == 0) {	/* child process */
 				close(listenfd);	/* close listening socket */
