@@ -491,11 +491,11 @@ void recv_all(int recvfd, socklen_t salen)
 int
 main(int argc, char **argv)
 {
-	char tryb = 'x';
+	int tryb = 0;
 	printf("podaj tryb");
 	fflush(stdout);
-	scanf("%c",tryb);
-	if(tryb == 'a'){
+	scanf("%d",tryb);
+	if(tryb == 1){
 
 		int					sockfd, n;
 		struct sockaddr_in	servaddr;
@@ -533,7 +533,7 @@ main(int argc, char **argv)
 		exit(0);
 	}
 
-	else if (tryb == 'b'){
+	else if (tryb == 2){
 
 		int sendfd, recvfd;
 		const int on = 1;
@@ -608,5 +608,8 @@ main(int argc, char **argv)
 			recv_all(recvfd, salen);	/* child -> receives */
 
 		send_all(sendfd, sasend, salen);	/* parent -> sends */
+	}
+	else {
+		fprintf("nie dziala\n");
 	}
 }

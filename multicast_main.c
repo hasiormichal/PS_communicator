@@ -414,11 +414,11 @@ void recv_all(int recvfd, socklen_t salen)
 
 int main(int argc, char **argv)
 {	
-	char tryb='x';
+	int tryb= 0 ;
 	printf("podaj tryb");
 	fflush(stdout);
-	scanf("%c",tryb);
-	if(tryb == 'a'){
+	scanf("%d",tryb);
+	if(tryb == 1){
 
 		int					listenfd, connfd;
 		pid_t				childpid;
@@ -493,7 +493,8 @@ int main(int argc, char **argv)
 
 
 
-	else{
+	else if(tryb == 2){
+
 		int sendfd, recvfd;
 		const int on = 1;
 		socklen_t salen;
@@ -567,5 +568,8 @@ int main(int argc, char **argv)
 			recv_all(recvfd, salen);	/* child -> receives */
 
 		send_all(sendfd, sasend, salen);	/* parent -> sends */
+	}
+	else{
+		fprintf("nie dziala\n");
 	}
 }
