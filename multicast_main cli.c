@@ -18,6 +18,9 @@
 #define SA      struct sockaddr
 #define IPV6 1
 
+
+
+//#include	"unp.h"
 #include        <sys/types.h>   /* basic system data types */
 #include        <sys/socket.h>  /* basic socket definitions */
 #include        <sys/time.h>    /* timeval{} for select() */
@@ -32,25 +35,92 @@
 #include        <stdlib.h>
 #include        <string.h>
 #include        <unistd.h>
-#include 	<sys/wait.h>
 
 #define MAXLINE 1024
+#define SA      struct sockaddr
 
-#define SA struct sockaddr
 
-#define LISTENQ 2
+static int	read_cnt;
+static char	*read_ptr;
+static char	read_buf[MAXLINE];
+
+static ssize_t
+my_read(int fd, char *ptr)
+{
+
+	if (read_cnt <= 0) {
+again:
+		if ( (read_cnt = read(fd, read_buf, sizeof(read_buf))) < 0) {
+			if (errno == EINTR)
+				goto again;
+			return(-1);
+		} else if (read_cnt == 0)
+			return(0);
+		read_ptr = read_buf;
+	}
+
+	read_cnt--;
+	*ptr = *read_ptr++;
+	return(1);
+}
+
+ssize_t
+readline(int fd, void *vptr, size_t maxlen)
+{
+	ssize_t	n, rc;
+	char	c, *ptr;
+
+	ptr = vptr;
+	for (n = 1; n < maxlen; n++) {
+		if ( (rc = my_read(fd, &c)) == 1) {
+			*ptr++ = c;
+			if (c == '\n')
+				break;	/* newline is stored, like fgets() */
+		} else if (rc == 0) {
+			*ptr = 0;
+			return(n - 1);	/* EOF, n - 1 bytes were read */
+		} else
+			return(-1);		/* error, errno set by read() */
+	}
+
+	*ptr = 0;	/* null terminate like fgets() */
+	return(n);
+}
+
+/* end readline */
+
+ssize_t
+Readline(int fd, void *ptr, size_t maxlen)
+{
+	ssize_t		n;
+
+	if ( (n = readline(fd, ptr, maxlen)) < 0)
+		perror("readline error");
+	return(n);
+}
+
+
 
 
 void
-sig_chld(int signo)
+Fputs(const char *ptr, FILE *stream)
 {
-	pid_t	pid;
-	int		stat;
-
-	while ( (pid = waitpid(-1, &stat, WNOHANG)) > 0)
-		printf("child %d terminated\n", pid);
-	return;
+	if (fputs(ptr, stream) == EOF)
+		perror("fputs error");
 }
+
+
+char *
+Fgets(char *ptr, int n, FILE *stream)
+{
+	char	*rptr;
+
+	if ( (rptr = fgets(ptr, n, stream)) == NULL && ferror(stream))
+		perror("fgets error");
+
+	return (rptr);
+}
+
 
 ssize_t						/* Write "n" bytes to a descriptor. */
 writen(int fd, const void *vptr, size_t n)
@@ -84,21 +154,27 @@ Writen(int fd, void *ptr, size_t nbytes)
 }
 
 void
-str_echo(int sockfd)
+str_cli(FILE *fp, int sockfd)
 {
-	ssize_t		n;
-	char		buf[MAXLINE];
+	char	sendline[MAXLINE], recvline[MAXLINE];
+	
+	printf("Enter text:");
 
-again:
-	while ( (n = read(sockfd, buf, MAXLINE)) > 0)
-		Writen(sockfd, buf, n);
+	while (Fgets(sendline, MAXLINE, fp) != NULL) {
 
-	if (n < 0 && errno == EINTR)
-		goto again;
-	else if (n < 0)
-		perror("str_echo: read error");
+		Writen(sockfd, sendline, strlen(sendline));
+
+		if (Readline(sockfd, recvline, MAXLINE) == 0){
+			perror("str_cli: server terminated prematurely");
+			exit(0);
+		}
+		Fputs(recvline, stdout);
+		printf("Enter text:");
+	}
 }
-			
+
+
+
 
 
 
@@ -412,87 +488,58 @@ void recv_all(int recvfd, socklen_t salen)
 
 
 
-int main(int argc, char **argv)
-{	
+int
+main(int argc, char **argv)
+{
+
+
+
+
+int
+main(int argc, char **argv)
+{
 	char tryb;
 	printf("podaj tryb");
 	scanf(%c,tryb);
 	if(tryb = 'a'){
 
-		int					listenfd, connfd;
-		pid_t				childpid;
-		socklen_t			clilen;
-		struct sockaddr_in6	cliaddr, servaddr;
-		void				sig_chld(int);
-	//#define SIGCHLD_
-	#ifdef SIGCHLD_
-		struct sigaction new_action, old_action;
+		int					sockfd, n;
+		struct sockaddr_in6	servaddr;
+		char				recvline[MAXLINE + 1];
 
-	/* Set up the structure to specify the new action. */
-		new_action.sa_handler = sig_chld;
-	//  new_action.sa_handler = SIG_IGN;
-		sigemptyset (&new_action.sa_mask);
-		new_action.sa_flags = 0;
-
-		if( sigaction (SIGCHLD, &new_action, &old_action) < 0 ){
-			fprintf(stderr,"sigaction error : %s\n", strerror(errno));
+		if (argc != 2){
+			fprintf(stderr, "usage: %s <IPv6_address> : \n", argv[0]);
 			return 1;
 		}
-	
-	#endif 
-	//	signal(SIGCHLD, sig_chld);
-	//	signal(SIGCHLD, SIG_IGN);
-		
-	if ( (listenfd = socket(AF_INET6, SOCK_STREAM, 0)) < 0){
+		if ( (sockfd = socket(AF_INET6, SOCK_STREAM, 0)) < 0){
 			fprintf(stderr,"socket error : %s\n", strerror(errno));
 			return 1;
-	}
-	int optval = 1;               
-	if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)) < 0){
-					fprintf(stderr,"SO_REUSEADDR setsockopt error : %s\n", strerror(errno));
-	}
+		}
 
 		bzero(&servaddr, sizeof(servaddr));
 		servaddr.sin6_family = AF_INET6;
-		servaddr.sin6_addr   = in6addr_any;
 		servaddr.sin6_port   = atoi(argv[2]);	/* echo server */
-
-	if ( bind( listenfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
-			fprintf(stderr,"bind error : %s\n", strerror(errno));
+		if (inet_pton(AF_INET6, argv[4], &servaddr.sin6_addr) <= 0){
+			fprintf(stderr,"inet_pton error for %s : \n", argv[4]);
 			return 1;
-	}
-
-	if ( listen(listenfd, LISTENQ) < 0){
-			fprintf(stderr,"listen error : %s\n", strerror(errno));
-			return 1;
-	}
-
-
-
-		for ( ; ; ) {
-			clilen = sizeof(cliaddr);
-			if ( (connfd = accept(listenfd, (SA *) &cliaddr, &clilen)) < 0) {
-				if (errno == EINTR)
-					continue;		/* back to for() */
-				else
-					perror("accept error");
-					exit(1);
-			}
-
-			if ( (childpid = fork()) == 0) {	/* child process */
-				close(listenfd);	/* close listening socket */
-				str_echo(connfd);	/* process the request */
-				exit(0);
-			}
-			close(connfd);			/* parent closes connected socket */
 		}
+		if (connect(sockfd, (SA *) &servaddr, sizeof(servaddr)) < 0){
+			fprintf(stderr,"connect error : %s \n", strerror(errno));
+			return 1;
+		}
+
+
+		str_cli(stdin, sockfd);		/* do it all */
+
+
+		fprintf(stderr,"OK\n");
+		fflush(stderr);
+
+		exit(0);
 	}
-
-
-
-
 
 	else{
+
 		int sendfd, recvfd;
 		const int on = 1;
 		socklen_t salen;
@@ -500,13 +547,13 @@ int main(int argc, char **argv)
 		struct sockaddr_in6 *ipv6addr;
 		struct sockaddr_in *ipv4addr;
 
+		
 
-/*
 		if (argc != 4){
 			fprintf(stderr, "usage: %s  <IP-multicast-address> <port#> <if name>\n", argv[0]);
 			return 1;
 		}
-*/
+
 		sendfd = snd_udp_socket(argv[1], atoi(argv[2]), &sasend, &salen);
 
 		if ( (recvfd = socket(sasend->sa_family, SOCK_DGRAM, 0)) < 0){
