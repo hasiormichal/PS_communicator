@@ -493,7 +493,7 @@ main(int argc, char **argv)
 {
 	char tryb;
 	printf("podaj tryb");
-	fflush();
+	fflush(stdout);
 	scanf("%c",tryb);
 	if(tryb = 'a'){
 
