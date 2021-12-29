@@ -419,7 +419,7 @@ int main(int argc, char **argv)
 	fflush(stdout);
 	scanf("%c",tryb);
 	printf("\n %d \n",tryb);
-	if(tryb == "a"){
+	if(*tryb == 'a'){
 		printf(" a działa ");
 		int					listenfd, connfd;
 		pid_t				childpid;
@@ -494,7 +494,7 @@ int main(int argc, char **argv)
 
 
 
-	else if(tryb == "b"){
+	else if(tryb == 'b'){
 		printf(" 2 działa ");
 		int sendfd, recvfd;
 		const int on = 1;
