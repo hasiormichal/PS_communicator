@@ -494,7 +494,8 @@ main(int argc, char **argv)
 	int tryb = 0;
 	printf("podaj tryb");
 	fflush(stdout);
-	scanf("%d",tryb);
+	scanf("%d",&tryb);
+	printf("\n podano: %d \n",tryb);
 	if(tryb == 1){
 		printf(" 1 działa ");
 		int					sockfd, n;
