@@ -414,10 +414,10 @@ void recv_all(int recvfd, socklen_t salen)
 
 int main(int argc, char **argv)
 {	
-	int tryb =0;;
+	int tryb =0;
 	printf("podaj tryb");
 	fflush(stdout);
-	scanf("%d",tryb);
+	scanf("%d",&tryb);
 	printf("\n %d  asd  %c\n",tryb,tryb);
 	fflush(stdout);
 	if(tryb == 2){
