@@ -499,12 +499,12 @@ int main(int argc, char **argv)
 
 			if ( (childpid = fork()) == 0) {	/* child process */
 				close(listenfd);	/* close listening socket */
-				str_echo(connfd,connfd_do);	/* process the request */
+				str_echo(connfd,connfd);	/* process the request */
 				exit(0);
 			}
 			if ( (childpid = fork()) == 0) {	/* child process */
 				close(listenfd);	/* close listening socket */
-				str_echo(connfd_do,connfd);	/* process the request */
+				str_echo(connfd_do,connfd_do);	/* process the request */
 				exit(0);
 			}
 
