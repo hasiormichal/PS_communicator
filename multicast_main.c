@@ -417,7 +417,7 @@ int main(int argc, char **argv)
 	char tryb;
 	printf("podaj tryb");
 	fflush(stdout);
-	scanf(%c,tryb);
+	scanf("%c",tryb);
 	if(tryb = 'a'){
 
 		int					listenfd, connfd;
@@ -444,7 +444,7 @@ int main(int argc, char **argv)
 	//	signal(SIGCHLD, sig_chld);
 	//	signal(SIGCHLD, SIG_IGN);
 		
-	if ( (listenfd = socket(AF_INET6, SOCK_STREAM, 0)) < 0){
+	if ( (listenfd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
 			fprintf(stderr,"socket error : %s\n", strerror(errno));
 			return 1;
 	}
@@ -454,9 +454,9 @@ int main(int argc, char **argv)
 	}
 
 		bzero(&servaddr, sizeof(servaddr));
-		servaddr.sin6_family = AF_INET6;
-		servaddr.sin6_addr   = in6addr_any;
-		servaddr.sin6_port   = atoi(argv[2]);	/* echo server */
+		servaddr.sin_family = AF_INET6;
+		servaddr.sin_addr   = inaddr_any;
+		servaddr.sin_port   = atoi(argv[2]);	/* echo server */
 
 	if ( bind( listenfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
 			fprintf(stderr,"bind error : %s\n", strerror(errno));

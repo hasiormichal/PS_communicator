@@ -500,20 +500,21 @@ main(int argc, char **argv)
 		int					sockfd, n;
 		struct sockaddr_in6	servaddr;
 		char				recvline[MAXLINE + 1];
-
+/*
 		if (argc != 2){
 			fprintf(stderr, "usage: %s <IPv6_address> : \n", argv[0]);
 			return 1;
 		}
-		if ( (sockfd = socket(AF_INET6, SOCK_STREAM, 0)) < 0){
+*/
+		if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
 			fprintf(stderr,"socket error : %s\n", strerror(errno));
 			return 1;
 		}
 
 		bzero(&servaddr, sizeof(servaddr));
-		servaddr.sin6_family = AF_INET6;
-		servaddr.sin6_port   = atoi(argv[2]);	/* echo server */
-		if (inet_pton(AF_INET6, argv[4], &servaddr.sin6_addr) <= 0){
+		servaddr.sin_family = AF_INET;
+		servaddr.sin_port   = atoi(argv[2]);	/* echo server */
+		if (inet_pton(AF_INET, argv[4], &servaddr.sin_addr) <= 0){
 			fprintf(stderr,"inet_pton error for %s : \n", argv[4]);
 			return 1;
 		}
