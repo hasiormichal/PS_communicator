@@ -498,7 +498,7 @@ main(int argc, char **argv)
 	if(tryb = 'a'){
 
 		int					sockfd, n;
-		struct sockaddr_in6	servaddr;
+		struct sockaddr_in	servaddr;
 		char				recvline[MAXLINE + 1];
 /*
 		if (argc != 2){

@@ -423,7 +423,7 @@ int main(int argc, char **argv)
 		int					listenfd, connfd;
 		pid_t				childpid;
 		socklen_t			clilen;
-		struct sockaddr_in6	cliaddr, servaddr;
+		struct sockaddr_in	cliaddr, servaddr;
 		void				sig_chld(int);
 	//#define SIGCHLD_
 	#ifdef SIGCHLD_
