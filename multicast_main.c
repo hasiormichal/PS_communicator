@@ -88,7 +88,8 @@ str_echo(int sockfd, int sockfd_do)
 {
 	ssize_t		n;
 	char		buf[MAXLINE];
-
+printf("str echo\n");
+fflush(stdout);
 again:
 	while ( (n = read(sockfd, buf, MAXLINE)) > 0)
 		Writen(sockfd_do, buf, n);
@@ -483,6 +484,7 @@ int main(int argc, char **argv)
 			}
 
 			printf("podłączył się pierwszy: %d",connfd);
+			fflush(stdout);
 
 			if ( (connfd_do = accept(listenfd, (SA *) &cliaddr_2, &clilen_2)) < 0) {
 				if (errno == EINTR)
@@ -495,7 +497,7 @@ int main(int argc, char **argv)
 
 			if ( (childpid = fork()) == 0) {	/* child process */
 				close(listenfd);	/* close listening socket */
-				str_echo(connfd_do,connfd);	/* process the request */
+				str_echo(connfd,connfd_do);	/* process the request */
 				exit(0);
 			}
 			close(connfd);

@@ -159,7 +159,7 @@ str_cli(FILE *fp, int sockfd)
 	char	sendline[MAXLINE], recvline[MAXLINE];
 	
 	printf("Enter text:");
-
+	fflush(stdout);
 	while (Fgets(sendline, MAXLINE, fp) != NULL) {
 
 		Writen(sockfd, sendline, strlen(sendline));
@@ -526,7 +526,7 @@ main(int argc, char **argv)
 
 
 		str_cli(stdin, sockfd);		/* do it all */
-
+		fflush(stdout);
 
 		fprintf(stderr,"OK\n");
 		fflush(stderr);
