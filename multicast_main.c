@@ -84,14 +84,14 @@ Writen(int fd, void *ptr, size_t nbytes)
 }
 
 void
-str_echo(int sockfd)
+str_echo(int sockfd, int sockfd_do)
 {
 	ssize_t		n;
 	char		buf[MAXLINE];
 
 again:
 	while ( (n = read(sockfd, buf, MAXLINE)) > 0)
-		Writen(sockfd, buf, n);
+		Writen(sockfd_do, buf, n);
 
 	if (n < 0 && errno == EINTR)
 		goto again;
@@ -422,7 +422,7 @@ int main(int argc, char **argv)
 	fflush(stdout);
 	if(tryb == 1){
 		printf(" 1 działa ");
-		int					listenfd, connfd;
+		int					listenfd, connfd, connfd_do;
 		pid_t				childpid;
 		socklen_t			clilen;
 		struct sockaddr_in	cliaddr, servaddr;
@@ -482,12 +482,22 @@ int main(int argc, char **argv)
 					exit(1);
 			}
 
+			if ( (connfd_do = accept(listenfd, (SA *) &cliaddr, &clilen)) < 0) {
+				if (errno == EINTR)
+					continue;		/* back to for() */
+				else
+					perror("accept error confd_do");
+					exit(1);
+			}
+
+
 			if ( (childpid = fork()) == 0) {	/* child process */
 				close(listenfd);	/* close listening socket */
-				str_echo(connfd);	/* process the request */
+				str_echo(connfd,connfd_do);	/* process the request */
 				exit(0);
 			}
-			close(connfd);			/* parent closes connected socket */
+			close(connfd);
+			close(connfd_do);			/* parent closes connected socket */
 		}
 	}
 
