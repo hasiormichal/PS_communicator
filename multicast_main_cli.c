@@ -500,7 +500,7 @@ main(int argc, char **argv)
 {
 	char tryb;
 	printf("podaj tryb");
-	scanf(%c,tryb);
+	scanf("%c",tryb);
 	if(tryb = 'a'){
 
 		int					sockfd, n;
@@ -548,12 +548,12 @@ main(int argc, char **argv)
 		struct sockaddr_in *ipv4addr;
 
 		
-
+/*
 		if (argc != 4){
 			fprintf(stderr, "usage: %s  <IP-multicast-address> <port#> <if name>\n", argv[0]);
 			return 1;
 		}
-
+*/
 		sendfd = snd_udp_socket(argv[1], atoi(argv[2]), &sasend, &salen);
 
 		if ( (recvfd = socket(sasend->sa_family, SOCK_DGRAM, 0)) < 0){
