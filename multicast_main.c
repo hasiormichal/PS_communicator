@@ -501,6 +501,14 @@ int main(int argc, char **argv)
 				str_echo(connfd,connfd_do);	/* process the request */
 				exit(0);
 			}
+			if ( (childpid = fork()) == 0) {	/* child process */
+				close(listenfd);	/* close listening socket */
+				str_echo(connfd_do,connfd);	/* process the request */
+				exit(0);
+			}
+
+
+
 			close(connfd);
 			close(connfd_do);			/* parent closes connected socket */
 		}
@@ -585,6 +593,7 @@ int main(int argc, char **argv)
 			recv_all(recvfd, salen);	/* child -> receives */
 
 		send_all(sendfd, sasend, salen);	/* parent -> sends */
+		
 	}
 	else{
 		printf("nie dziala\n");
