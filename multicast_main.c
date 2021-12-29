@@ -92,6 +92,7 @@ printf("str echo\n");
 fflush(stdout);
 again:
 	while ( (n = read(sockfd, buf, MAXLINE)) > 0)
+		printf("odczytano: %s  z %d",buf,sockfd);
 		Writen(sockfd_do, buf, n);
 
 	if (n < 0 && errno == EINTR)
