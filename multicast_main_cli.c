@@ -491,7 +491,7 @@ void recv_all(int recvfd, socklen_t salen)
 int
 main(int argc, char **argv)
 {
-	char tryb;
+	char tryb = "x";
 	printf("podaj tryb");
 	fflush(stdout);
 	scanf("%c",tryb);
