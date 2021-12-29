@@ -495,7 +495,7 @@ main(int argc, char **argv)
 	printf("podaj tryb");
 	fflush(stdout);
 	scanf("%c",tryb);
-	if(tryb = 'a'){
+	if(tryb == 'a'){
 
 		int					sockfd, n;
 		struct sockaddr_in	servaddr;
@@ -533,7 +533,7 @@ main(int argc, char **argv)
 		exit(0);
 	}
 
-	else{
+	else if (tryb == 'b'){
 
 		int sendfd, recvfd;
 		const int on = 1;

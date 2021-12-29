@@ -418,7 +418,7 @@ int main(int argc, char **argv)
 	printf("podaj tryb");
 	fflush(stdout);
 	scanf("%c",tryb);
-	if(tryb = 'a'){
+	if(tryb == 'a'){
 
 		int					listenfd, connfd;
 		pid_t				childpid;
