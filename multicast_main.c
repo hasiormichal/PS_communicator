@@ -424,8 +424,8 @@ int main(int argc, char **argv)
 		printf(" 1 działa ");
 		int					listenfd, connfd, connfd_do;
 		pid_t				childpid;
-		socklen_t			clilen;
-		struct sockaddr_in	cliaddr, servaddr;
+		socklen_t			clilen,clilen_2;
+		struct sockaddr_in	cliaddr,cliaddr_2, servaddr;
 		void				sig_chld(int);
 	//#define SIGCHLD_
 	#ifdef SIGCHLD_
@@ -484,7 +484,7 @@ int main(int argc, char **argv)
 
 			printf("podłączył się pierwszy: %d",connfd);
 
-			if ( (connfd_do = accept(listenfd, (SA *) &cliaddr, &clilen)) < 0) {
+			if ( (connfd_do = accept(listenfd, (SA *) &cliaddr_2, &clilen_2)) < 0) {
 				if (errno == EINTR)
 					continue;		/* back to for() */
 				else
