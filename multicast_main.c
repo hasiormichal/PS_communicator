@@ -419,7 +419,7 @@ int main(int argc, char **argv)
 	fflush(stdout);
 	scanf("%d",tryb);
 	if(tryb == 1){
-
+		printf(" 1 działa ");
 		int					listenfd, connfd;
 		pid_t				childpid;
 		socklen_t			clilen;
@@ -494,7 +494,7 @@ int main(int argc, char **argv)
 
 
 	else if(tryb == 2){
-
+		printf(" 2 działa ");
 		int sendfd, recvfd;
 		const int on = 1;
 		socklen_t salen;

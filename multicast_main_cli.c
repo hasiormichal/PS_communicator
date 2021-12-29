@@ -496,7 +496,7 @@ main(int argc, char **argv)
 	fflush(stdout);
 	scanf("%d",tryb);
 	if(tryb == 1){
-
+		printf(" 1 działa ");
 		int					sockfd, n;
 		struct sockaddr_in	servaddr;
 		char				recvline[MAXLINE + 1];
@@ -534,7 +534,7 @@ main(int argc, char **argv)
 	}
 
 	else if (tryb == 2){
-
+		printf(" 2 działa ");
 		int sendfd, recvfd;
 		const int on = 1;
 		socklen_t salen;
