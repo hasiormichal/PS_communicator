@@ -418,6 +418,7 @@ int main(int argc, char **argv)
 	printf("podaj tryb");
 	fflush(stdout);
 	scanf("%d",tryb);
+	printf("\n %d",tryb);
 	if(tryb == 1){
 		printf(" 1 działa ");
 		int					listenfd, connfd;
