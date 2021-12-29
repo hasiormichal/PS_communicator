@@ -416,6 +416,7 @@ int main(int argc, char **argv)
 {	
 	char tryb;
 	printf("podaj tryb");
+	fflush();
 	scanf(%c,tryb);
 	if(tryb = 'a'){
 
