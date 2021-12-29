@@ -419,6 +419,7 @@ int main(int argc, char **argv)
 	fflush(stdout);
 	scanf("%c",tryb);
 	printf("\n %d  asd  %c\n",tryb,tryb);
+	fflush(stdout);
 	if(tryb == 'a'){
 		printf(" a działa ");
 		int					listenfd, connfd;
