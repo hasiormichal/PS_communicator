@@ -455,7 +455,7 @@ int main(int argc, char **argv)
 
 		bzero(&servaddr, sizeof(servaddr));
 		servaddr.sin_family = AF_INET;
-		servaddr.sin_addr   = inet_addr("192.168.10.2");
+		servaddr.sin_addr   = in4addr_any;
 		servaddr.sin_port   = atoi(argv[2]);	/* echo server */
 
 	if ( bind( listenfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
