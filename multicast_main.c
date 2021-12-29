@@ -414,13 +414,13 @@ void recv_all(int recvfd, socklen_t salen)
 
 int main(int argc, char **argv)
 {	
-	int tryb= 0 ;
+	char tryb= 'a' ;
 	printf("podaj tryb");
 	fflush(stdout);
-	scanf("%d",tryb);
-	printf("\n %d",tryb);
-	if(tryb == 1){
-		printf(" 1 działa ");
+	scanf("%c",tryb);
+	printf("\n %d \n",tryb);
+	if(tryb == "a"){
+		printf(" a działa ");
 		int					listenfd, connfd;
 		pid_t				childpid;
 		socklen_t			clilen;
@@ -494,7 +494,7 @@ int main(int argc, char **argv)
 
 
 
-	else if(tryb == 2){
+	else if(tryb == "b"){
 		printf(" 2 działa ");
 		int sendfd, recvfd;
 		const int on = 1;
