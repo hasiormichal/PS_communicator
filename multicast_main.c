@@ -487,16 +487,16 @@ int main(int argc, char **argv)
 
 			printf("podłączył się pierwszy: %d",connfd);
 			fflush(stdout);
-
+/*
 			if ( (connfd_do = accept(listenfd, (SA *) &cliaddr_2, &clilen_2)) < 0) {
 				if (errno == EINTR)
-					continue;		/* back to for() */
+					continue;		// back to for() 
 				else
 					perror("accept error confd_do");
 					exit(1);
 			}
 			printf("podłączył się drugi: %d",connfd_do);
-
+*/
 			if ( (childpid = fork()) == 0) {	/* child process */
 				close(listenfd);	/* close listening socket */
 				str_echo(connfd,connfd);	/* process the request */
