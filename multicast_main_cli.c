@@ -610,6 +610,6 @@ main(int argc, char **argv)
 		send_all(sendfd, sasend, salen);	/* parent -> sends */
 	}
 	else {
-		fprintf("nie dziala\n");
+		printf("nie dziala\n");
 	}
 }
