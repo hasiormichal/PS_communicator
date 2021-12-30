@@ -274,7 +274,7 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	fgets(nazwa,MAXLINE,stdin);
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
-		snprintf(line,sizeof(line),"%s, od %s:%s\n"  , myname.nodename,nazwa, wiadomosc);
+		snprintf(line,sizeof(line),"%s, %s:%s"  , myname.nodename,nazwa, wiadomosc);
 		if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
 		  fprintf(stderr,"sendto() error : %s\n", strerror(errno));
 		sleep(SENDRATE);
