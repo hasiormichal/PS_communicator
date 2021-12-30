@@ -271,10 +271,10 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 		perror("uname error");
 	//snprintf(line, sizeof(line), "%s, PID=%d", myname.nodename, getpid());
 	printf("podaj nazwe komputera");
-	fgets(nazwa,30,stdin);
+	scanf("%s",&nazwa);
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
-		snprintf(line,sizeof(line),"%s:/n%s",nazwa, wiadomosc);
+		snprintf(line,sizeof(line),"%s:\n%s",nazwa, wiadomosc);
 		if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
 		  fprintf(stderr,"sendto() error : %s\n", strerror(errno));
 		sleep(SENDRATE);
