@@ -331,12 +331,12 @@ int main(){
     printf("Enter chat room number (1 or 2).\n");
     scanf("%d",&choice);
     if(choice == 1){
-        adres = "224.0.0.1";
-        port = "4000";
+        strcpy(adres,"224.0.0.1");
+        strcpy(port,"4000");
     }
     else if(choice == 2){
-        adres = "224.0.0.2";
-        port = "4001";
+        strcpy(adres,"224.0.0.2");
+        strcpy(port,"4001");
     }
     else{
         printf("Enter invalid agrument\n");
