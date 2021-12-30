@@ -264,8 +264,8 @@ void	send_all(int, SA *, socklen_t);
 void send_all(int sendfd, SA *sadest, socklen_t salen){
 	char		line[MAXLINE];		/* hostname and process ID */
 	struct utsname	myname;
-	char wiadomosc[MAXLINE];
-	char nazwa[MAXLINE];
+	char wiadomosc[MAXLINE-30];
+	char nazwa[30];
 
 	if (uname(&myname) < 0)
 		perror("uname error");
@@ -274,7 +274,7 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	fgets(nazwa,30,stdin);
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
-		snprintf(line,sizeof(line),"%s:/n",nazwa, wiadomosc);
+		snprintf(line,sizeof(line),"%s:/n%s",nazwa, wiadomosc);
 		if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
 		  fprintf(stderr,"sendto() error : %s\n", strerror(errno));
 		sleep(SENDRATE);
