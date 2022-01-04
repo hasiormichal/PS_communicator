@@ -264,7 +264,7 @@ int mcast_set_loop(int sockfd, int onoff){
 void	recv_all(int, socklen_t);
 void	send_all(int, SA *, socklen_t);
 
-#define	SENDRATE	5		/* send one datagram every five seconds */
+#define	SENDRATE	1		/* send one datagram every five seconds */
 
 void send_all(int sendfd, SA *sadest, socklen_t salen){
 	char		line[MAXLINE];		/* hostname and process ID */
