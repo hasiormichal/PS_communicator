@@ -14,6 +14,11 @@
 #include	<sys/utsname.h>
 #include	<linux/un.h>
 
+#include        <time.h>  
+#include        <netdb.h>
+#include 	<sys/wait.h>
+#include        <fcntl.h> 
+
 # include "multicast_chat.h"
 
 
