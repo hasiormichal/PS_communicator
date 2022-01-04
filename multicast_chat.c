@@ -435,8 +435,8 @@ int main(){
 		fprintf(stderr,"mcast_join() error : %s\n", strerror(errno));
 		return 1;
 	}
-	//signal(SIGCHLD, sig_chld);
-	signal(SIGCHLD, SIG_IGN);	
+	signal(SIGCHLD, sig_chld);
+	//signal(SIGCHLD, SIG_IGN);	
 	mcast_set_loop(sendfd, 1);
 
 	if (fork() == 0){
