@@ -279,18 +279,13 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	scanf("%s",&nazwa);
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
-		if(wiadomosc[0] != 'x'){
-			snprintf(line,sizeof(line),"%s.\n>%s",nazwa, wiadomosc);
-			if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
-			fprintf(stderr,"sendto() error : %s\n", strerror(errno));
-			sleep(SENDRATE);
-		}
-		else{
-			break;
-		}
+		snprintf(line,sizeof(line),"%s.\n>%s",nazwa, wiadomosc);
+		if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
+		fprintf(stderr,"sendto() error : %s\n", strerror(errno));
+		sleep(SENDRATE);
 	}
-	printf("leaving...\n");
 }
+
 
 void recv_all(int recvfd, socklen_t salen){
 	int					n;
@@ -324,16 +319,6 @@ void recv_all(int recvfd, socklen_t salen){
 	}
 }
 
-void
-sig_chld(int signo)
-{
-	pid_t	pid;
-	int		stat;
-
-	while ( (pid = waitpid(-1, &stat, WNOHANG)) > 0)
-		printf("child %d terminated\n", pid);
-	return;
-}
 
 /////////////////////// main /////////////////////////////////////
 
@@ -350,13 +335,6 @@ int main(){
     char port[5] = "0000";
 
 
-    struct sigaction new_action, old_action;
-
-  /* Set up the structure to specify the new action. */
-    new_action.sa_handler = sig_chld;
-  //  new_action.sa_handler = SIG_IGN;
-    sigemptyset (&new_action.sa_mask);
-    new_action.sa_flags = 0;
 
     if( sigaction (SIGCHLD, &new_action, &old_action) < 0 ){
           fprintf(stderr,"sigaction error : %s\n", strerror(errno));
@@ -435,17 +413,13 @@ int main(){
 		fprintf(stderr,"mcast_join() error : %s\n", strerror(errno));
 		return 1;
 	}
-	signal(SIGCHLD, sig_chld);
-	//signal(SIGCHLD, SIG_IGN);	
+
 	mcast_set_loop(sendfd, 1);
 
 	if (fork() == 0){
 		recv_all(recvfd, salen);	/* child -> receives */
-		printf("stop the recv_all function\n");
-		fflush(stdout);
-		close(recvfd);
+
 	}
     send_all(sendfd, sasend, salen);	/* parent -> sends */
-	close(sendfd);
-	close(recvfd);
+
 	}
