@@ -335,13 +335,6 @@ int main(){
     char port[5] = "0000";
 
 
-
-    if( sigaction (SIGCHLD, &new_action, &old_action) < 0 ){
-          fprintf(stderr,"sigaction error : %s\n", strerror(errno));
-          return 1;
-    }
-
-
     printf("Enter chat room number (1 or 2).\n");
     scanf("%d",&choice);
     if(choice == 1){
