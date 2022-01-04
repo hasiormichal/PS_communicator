@@ -36,17 +36,17 @@ day_time_br(int sockfd, SA *pcliaddr, socklen_t clilen)
 	for ( ; ; ) {
 		ticks = time(NULL);
 		cx = snprintf(mesg, MAXLINE, "PS daytime server: %.24s\r\n", ctime(&ticks));
-			if(cx>=0 && cx<MAXLINE){
-			snprintf(mesg+cx,MAXLINE-cx,"%s\n%s\n",dane.sysname,dane.version);
+//			if(cx>=0 && cx<MAXLINE){
+//			snprintf(mesg+cx,MAXLINE-cx,"%s\n%s\n",dane.sysname,dane.version);
 //koniec dodatkowych informacji
-		}
+//		}
 		fprintf(stdout,"Sending day time for clients : %s  \n", mesg);
 		
 		if( sendto(sockfd, mesg, strlen(mesg), 0, pcliaddr, len) < 0 ) {
                	fprintf(stderr,"sendto error : %s\n", strerror(errno));
              	continue;
 		}
-		sleep(2);
+		sleep(5);
 	}
 }
 
