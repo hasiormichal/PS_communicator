@@ -433,4 +433,5 @@ int main(){
 	}
     send_all(sendfd, sasend, salen);	/* parent -> sends */
 	close(sendfd);
+	close(recvfd);
 	}
