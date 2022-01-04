@@ -6,6 +6,6 @@
 
 int main(){
     //execl("/home/student/PS_communicator/client.exe" , "client" , 4444, NULL );
-    execlp("/home/student/PS_communicator/client" , "client" ,4444, (char *)NULL);
+    execlp("/home/student/PS_communicator/client" , "client" ,"4444", (char *)NULL);
     return 0;
 }
