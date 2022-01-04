@@ -4,6 +4,6 @@
 #include <unistd.h>
 
 int main(){
-    _execl("/home/student/PS_communicator/client.exe" , "/home/student/PS_communicator/client.exe" , 4444, NULL );
+    execl("/home/student/PS_communicator/client.exe" , "/home/student/PS_communicator/client.exe" , 4444, NULL );
     return 0;
 }
