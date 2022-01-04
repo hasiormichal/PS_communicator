@@ -425,4 +425,5 @@ int main(){
 	kill(pid, SIGTERM);
 	printf("child kill\n");
 	close(sendfd);
+	execlp("/home/student/PS_communicator/projekt" , "projekt" , (char *)NULL);
 	}
