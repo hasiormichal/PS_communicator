@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 int main(){
-    execl("/home/student/PS_communicator/client.exe" , "/home/student/PS_communicator/client.exe" , 4444, NULL );
-    printf("nie wyszlo\n");
+    //execl("/home/student/PS_communicator/client.exe" , "client" , 4444, NULL );
+    execlp("/home/student/PS_communicator/client" , "client" , (char *)NULL);
     return 0;
 }
