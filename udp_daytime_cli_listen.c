@@ -82,21 +82,22 @@ main(int argc, char *argv[])
 			}
 		}
 	
-		s = getnameinfo((struct sockaddr *) &peer_addr,
-						len, host, NI_MAXHOST,
-						service, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
-		if (s == 0)
-			printf("Received %ld bytes from %s:%s\n",
-								(long) n, host, service);
-		else
-			fprintf(stderr, "getnameinfo: %s\n", gai_strerror(s));
+//		s = getnameinfo((struct sockaddr *) &peer_addr,
+//						len, host, NI_MAXHOST,
+//						service, NI_MAXSERV, NI_NUMERICSERV | NI_NUMERICHOST);
+		//if (s == 0)
+//			printf("Received %ld bytes from %s:%s\n",
+//								(long) n, host, service);
+//		else
+//			fprintf(stderr, "getnameinfo: %s\n", gai_strerror(s));
 			
-		recvline[n] = 0;	/* null terminate */
+//		recvline[n] = 0;	/* null terminate */
+		
 		if (fputs(recvline, stdout) == EOF){
 			fprintf(stderr,"fputs error : %s\n", strerror(errno));
 			exit(1);
 		}
-		 cos2 = time(&czas2); // aktualizacja czasu
+//		 cos2 = time(&czas2); // aktualizacja czasu
 	}
 		
 	exit(EXIT_SUCCESS);
