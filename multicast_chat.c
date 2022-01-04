@@ -319,7 +319,18 @@ void recv_all(int recvfd, socklen_t salen){
 	}
 }
 
+void
+sig_chld(int signo)
+{
+	pid_t	pid;
+	int		stat;
 
+	while ( (pid = waitpid(-1, &stat, WNOHANG)) > 0)
+		printf("child %d terminated\n", pid);
+	return;
+}
+
+/////////////////////// main /////////////////////////////////////
 
 //int multicast_chat(){
 int main(){
