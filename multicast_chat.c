@@ -405,13 +405,15 @@ int main(){
 		fprintf(stderr,"mcast_join() error : %s\n", strerror(errno));
 		return 1;
 	}
-		
+	signal(SIGCHLD, sig_chld);	
 	mcast_set_loop(sendfd, 1);
 
 	if (fork() == 0){
 		recv_all(recvfd, salen);	/* child -> receives */
 		printf("stop the recv_all function\n");
 		fflush(stdout);
+		close(recvfd);
 	}
     send_all(sendfd, sasend, salen);	/* parent -> sends */
+	close(sendfd);
 	}
