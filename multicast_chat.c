@@ -350,6 +350,20 @@ int main(){
     char port[5] = "0000";
 
 
+    struct sigaction new_action, old_action;
+
+  /* Set up the structure to specify the new action. */
+    new_action.sa_handler = sig_chld;
+  //  new_action.sa_handler = SIG_IGN;
+    sigemptyset (&new_action.sa_mask);
+    new_action.sa_flags = 0;
+
+    if( sigaction (SIGCHLD, &new_action, &old_action) < 0 ){
+          fprintf(stderr,"sigaction error : %s\n", strerror(errno));
+          return 1;
+    }
+
+
     printf("Enter chat room number (1 or 2).\n");
     scanf("%d",&choice);
     if(choice == 1){
