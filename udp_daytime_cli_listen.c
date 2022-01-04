@@ -65,7 +65,7 @@ main(int argc, char *argv[])
 	//while(cos2-cos <= 6){
 	while(1){
 	        /* Read data from server */
-		fprintf(stderr, "Waiting for server ...\n");
+		//fprintf(stderr, "Waiting for server ...\n");
 	
 		len = sizeof(peer_addr);	
 		if( (n = recvfrom(sfd, recvline, MAXLINE, 0, (struct sockaddr *) &peer_addr, 

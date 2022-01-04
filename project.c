@@ -11,8 +11,9 @@ int main(){
         printf("Wybierz tryb programu:\n");
         printf("1) indywidualny czat - klient\n");
         printf("2) indywidualny czat - serwer\n");
-        printf("3) czat grupowy\n");
-        printf("4) wyjdz\n");
+        printf("3) czas\n");
+        printf("4) czat grupowy\n");
+        printf("5) wyjdz\n");
         scanf("%i",&wybor);
 
         if(wybor == 1){
