@@ -274,10 +274,16 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	scanf("%s",&nazwa);
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
-		snprintf(line,sizeof(line),"%s.\n>%s",nazwa, wiadomosc);
-		if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
-		  fprintf(stderr,"sendto() error : %s\n", strerror(errno));
-		sleep(SENDRATE);
+		if(strcmp(wiadomosc,"exit")){
+			snprintf(line,sizeof(line),"%s.\n>%s",nazwa, wiadomosc);
+			if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
+			fprintf(stderr,"sendto() error : %s\n", strerror(errno));
+			sleep(SENDRATE);
+		}
+		else{
+			printf("leaving...\n");
+			return;
+		}
 	}
 }
 
@@ -292,7 +298,6 @@ void recv_all(int recvfd, socklen_t salen){
 	char			addr_str[INET6_ADDRSTRLEN+1];
 
 	safrom = malloc(salen);
-
 	for ( ; ; ) {
 		len = salen;
 		if( (n = recvfrom(recvfd, line, MAXLINE, 0, safrom, &len)) < 0 )
@@ -402,8 +407,10 @@ int main(){
 		
 	mcast_set_loop(sendfd, 1);
 
-	if (fork() == 0)
+	if (fork() == 0){
 		recv_all(recvfd, salen);	/* child -> receives */
-	
+		printf("stop the recv_all function\n");
+		fflush(stdout);
+	}
     send_all(sendfd, sasend, salen);	/* parent -> sends */
 	}
