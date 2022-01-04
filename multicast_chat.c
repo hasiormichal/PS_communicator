@@ -281,10 +281,10 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 			sleep(SENDRATE);
 		}
 		else{
-			printf("leaving...\n");
-			return;
+			break;
 		}
 	}
+	printf("leaving...\n");
 }
 
 void recv_all(int recvfd, socklen_t salen){
