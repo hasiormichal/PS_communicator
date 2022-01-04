@@ -45,7 +45,8 @@ void send_msg_handler() {
     str_trim_lf(message, LENGTH);
 
     if (strcmp(message, "exit") == 0) {
-			break;
+			//break;
+    		execlp("/home/student/PS_communicator/projekt" , "projekt" ,(char *)NULL);
     } else {
       sprintf(buffer, "%s: %s\n", name, message);
       send(sockfd, buffer, strlen(buffer), 0);
