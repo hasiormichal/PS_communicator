@@ -215,9 +215,9 @@ int daemon_init(const char *pname, int facility, uid_t uid, int socket){
 	open("/dev/null", O_RDWR);
 	open("/dev/null", O_RDWR);
 
-	openlog(pname, LOG_PID, facility);
+	//openlog(pname, LOG_PID, facility);
 	
-        syslog(LOG_ERR," STDIN =   %i\n", p);
+    //    syslog(LOG_ERR," STDIN =   %i\n", p);
 	setuid(uid); /* change user */
 	
 	return (0);				/* success */
