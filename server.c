@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <syslog.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
@@ -29,8 +30,9 @@ client_t *clients[MAX_CLIENTS];
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void str_overwrite_stdout() {
-    printf("\r%s", "> ");
-    fflush(stdout);
+    //printf("\r%s", "> ");
+	syslog (LOG_NOTICE,"\r%s", "> ");
+   // fflush(stdout);
 }
 
 void str_trim_lf (char* arr, int length) {
@@ -44,7 +46,14 @@ void str_trim_lf (char* arr, int length) {
 }
 
 void print_client_addr(struct sockaddr_in addr){
+	/*
     printf("%d.%d.%d.%d",
+        addr.sin_addr.s_addr & 0xff,
+        (addr.sin_addr.s_addr & 0xff00) >> 8,
+        (addr.sin_addr.s_addr & 0xff0000) >> 16,
+        (addr.sin_addr.s_addr & 0xff000000) >> 24);
+		*/
+		syslog (LOG_NOTICE,"%d.%d.%d.%d",
         addr.sin_addr.s_addr & 0xff,
         (addr.sin_addr.s_addr & 0xff00) >> 8,
         (addr.sin_addr.s_addr & 0xff0000) >> 16,
@@ -115,7 +124,8 @@ void *handle_client(void *arg){
 	} else{
 		strcpy(cli->name, name);
 		sprintf(buff_out, "%s has joined\n", cli->name);
-		printf("%s", buff_out);
+		syslog (LOG_NOTICE,"%s", buff_out);
+		//printf("%s", buff_out);
 		send_message(buff_out, cli->uid);
 	}
 
@@ -132,11 +142,13 @@ void *handle_client(void *arg){
 				send_message(buff_out, cli->uid);
 
 				str_trim_lf(buff_out, strlen(buff_out));
-				printf("%s -> %s\n", buff_out, cli->name);
+				//printf("%s -> %s\n", buff_out, cli->name);
+				syslog (LOG_NOTICE,"%s -> %s\n", buff_out, cli->name);
 			}
 		} else if (receive == 0 || strcmp(buff_out, "exit") == 0){
 			sprintf(buff_out, "%s has left\n", cli->name);
-			printf("%s", buff_out);
+			//printf("%s", buff_out);
+			syslog (LOG_NOTICE,"%s", buff_out);
 			send_message(buff_out, cli->uid);
 			leave_flag = 1;
 		} else {
@@ -159,10 +171,15 @@ void *handle_client(void *arg){
 
 int main(int argc, char **argv){
 	if(argc != 2){
-		printf("Usage: %s <port>\n", argv[0]);
+		//printf("Usage: %s <port>\n", argv[0]);
 		return EXIT_FAILURE;
 	}
+// daemon syslog - do zapisywania logow
+setlogmask (LOG_UPTO (LOG_DEBUG));
+openlog (argv[0], LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL7);
+syslog (LOG_NOTICE, "sarted started by User %d", getuid ());
 
+//------------------------
 	char *ip = "192.168.10.2";
 	int port = atoi(argv[1]);
 	int option = 1;
@@ -197,17 +214,19 @@ int main(int argc, char **argv){
     return EXIT_FAILURE;
 	}
 
-	printf("=== WELCOME TO THE CHATROOM ===\n");
-
+	//printf("=== WELCOME TO THE CHATROOM ===\n");
+	syslog (LOG_NOTICE, "=== WELCOME TO THE CHATROOM ===\n");
 	while(1){
 		socklen_t clilen = sizeof(cli_addr);
 		connfd = accept(listenfd, (struct sockaddr*)&cli_addr, &clilen);
 
 		/* Check if max clients is reached */
 		if((cli_count + 1) == MAX_CLIENTS){
-			printf("Max clients reached. Rejected: ");
-			print_client_addr(cli_addr);
-			printf(":%d\n", cli_addr.sin_port);
+			//printf("Max clients reached. Rejected: ");
+			syslog (LOG_NOTICE,"Max clients reached. Rejected: ");
+			print_client_addr(cli_addr); // syslg w funkcji
+			//printf(":%d\n", cli_addr.sin_port);
+			syslog (LOG_NOTICE,":%d\n", cli_addr.sin_port);
 			close(connfd);
 			continue;
 		}
