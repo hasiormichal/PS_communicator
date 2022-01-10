@@ -169,6 +169,58 @@ void *handle_client(void *arg){
 	return NULL;
 }
 
+
+int daemon_init(const char *pname, int facility, uid_t uid, int socket){
+	int		i, p;
+	pid_t	pid;
+
+	if ( (pid = fork()) < 0)
+		return (-1);
+	else if (pid)
+		exit(0);			/* parent terminates */
+
+	/* child 1 continues... */
+
+	if (setsid() < 0)			/* become session leader */
+		return (-1);
+
+	signal(SIGHUP, SIG_IGN);
+	if ( (pid = fork()) < 0)
+		return (-1);
+	else if (pid)
+		exit(0);			/* child 1 terminates */
+
+	/* child 2 continues... */
+
+        //syslog (LOG_INFO,"     katalog domowy przed chroot     \n");
+        /* child 2 continues... */
+       // listujPliki("/");
+//      chdir("/tmp");                          /* change working directory  or chroot()*/
+        chroot("/tmp");
+       // syslog (LOG_INFO,"     katalog domowy po funkcji chroot     \n");
+       // listujPliki("/");
+
+	/* close off file descriptors */
+	for (i = 0; i < MAXFD; i++){
+		if(socket != i )
+			close(i);
+	}
+
+	/* redirect stdin, stdout, and stderr to /dev/null */
+	p= open("/dev/null", O_RDONLY);
+	open("/dev/null", O_RDWR);
+	open("/dev/null", O_RDWR);
+
+	openlog(pname, LOG_PID, facility);
+	
+        syslog(LOG_ERR," STDIN =   %i\n", p);
+	setuid(uid); /* change user */
+	
+	return (0);				/* success */
+}
+//----------------------
+
+
 int main(int argc, char **argv){
 	if(argc != 2){
 		//printf("Usage: %s <port>\n", argv[0]);
@@ -214,7 +266,7 @@ syslog (LOG_NOTICE, "sarted started by User %d", getuid ());
     perror("ERROR: Socket listening failed");
     return EXIT_FAILURE;
 	}
-
+	daemon_init(argv[0], LOG_USER, 1000, listenfd);
 	//printf("=== WELCOME TO THE CHATROOM ===\n");
 	syslog (LOG_NOTICE, "=== WELCOME TO THE CHATROOM ===\n");
 	while(1){
