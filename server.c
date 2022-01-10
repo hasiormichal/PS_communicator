@@ -175,6 +175,7 @@ int main(int argc, char **argv){
 		return EXIT_FAILURE;
 	}
 // daemon syslog - do zapisywania logow
+//zapisywane plikijak na razie         /var/log/syslog   
 setlogmask (LOG_UPTO (LOG_DEBUG));
 openlog (argv[0], LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL7);
 syslog (LOG_NOTICE, "sarted started by User %d", getuid ());
