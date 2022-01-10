@@ -35,7 +35,7 @@ pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void str_overwrite_stdout() {
     //printf("\r%s", "> ");
-	syslog (LOG_NOTICE,"\r%s", "> ");
+	syslog (LOG_INFO,"\r%s", "> ");
    // fflush(stdout);
 }
 
@@ -57,7 +57,7 @@ void print_client_addr(struct sockaddr_in addr){
         (addr.sin_addr.s_addr & 0xff0000) >> 16,
         (addr.sin_addr.s_addr & 0xff000000) >> 24);
 		*/
-		syslog (LOG_NOTICE,"%d.%d.%d.%d",
+		syslog (LOG_INFO,"%d.%d.%d.%d",
         addr.sin_addr.s_addr & 0xff,
         (addr.sin_addr.s_addr & 0xff00) >> 8,
         (addr.sin_addr.s_addr & 0xff0000) >> 16,
@@ -128,7 +128,7 @@ void *handle_client(void *arg){
 	} else{
 		strcpy(cli->name, name);
 		sprintf(buff_out, "%s has joined\n", cli->name);
-		syslog (LOG_NOTICE,"%s", buff_out);
+		syslog (LOG_INFO,"%s", buff_out);
 		//printf("%s", buff_out);
 		send_message(buff_out, cli->uid);
 	}
@@ -147,12 +147,12 @@ void *handle_client(void *arg){
 
 				str_trim_lf(buff_out, strlen(buff_out));
 				//printf("%s -> %s\n", buff_out, cli->name);
-				syslog (LOG_NOTICE,"%s -> %s\n", buff_out, cli->name);
+				syslog (LOG_INFO,"%s -> %s\n", buff_out, cli->name);
 			}
 		} else if (receive == 0 || strcmp(buff_out, "exit") == 0){
 			sprintf(buff_out, "%s has left\n", cli->name);
 			//printf("%s", buff_out);
-			syslog (LOG_NOTICE,"%s", buff_out);
+			syslog (LOG_INFO,"%s", buff_out);
 			send_message(buff_out, cli->uid);
 			leave_flag = 1;
 		} else {
@@ -234,7 +234,7 @@ int main(int argc, char **argv){
 //zapisywane plikijak na razie         /var/log/syslog   
 setlogmask (LOG_UPTO (LOG_DEBUG));
 openlog (argv[0], LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL7);
-syslog (LOG_NOTICE, "sarted started by User %d", getuid ());
+syslog (LOG_INFO, "sarted started by User %d", getuid ());
 
 //------------------------
 	char *ip = "192.168.10.2";
@@ -274,9 +274,9 @@ syslog (LOG_NOTICE, "sarted started by User %d", getuid ());
 	daemon_init(argv[0], LOG_USER, 1000, listenfd);
 	//setlogmask (LOG_UPTO (LOG_DEBUG));
 	//openlog (argv[0], LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL7);
-	syslog (LOG_NOTICE, "sarted after daemon by User %d", getuid ());
+	syslog (LOG_INFO, "sarted after daemon by User %d", getuid ());
 	//printf("=== WELCOME TO THE CHATROOM ===\n");
-	syslog (LOG_NOTICE, "=== WELCOME TO THE CHATROOM ===\n");
+	syslog (LOG_INFO, "=== WELCOME TO THE CHATROOM ===\n");
 	while(1){
 		socklen_t clilen = sizeof(cli_addr);
 		connfd = accept(listenfd, (struct sockaddr*)&cli_addr, &clilen);
@@ -284,10 +284,10 @@ syslog (LOG_NOTICE, "sarted started by User %d", getuid ());
 		/* Check if max clients is reached */
 		if((cli_count + 1) == MAX_CLIENTS){
 			//printf("Max clients reached. Rejected: ");
-			syslog (LOG_NOTICE,"Max clients reached. Rejected: ");
+			syslog (LOG_INFO,"Max clients reached. Rejected: ");
 			print_client_addr(cli_addr); // syslg w funkcji
 			//printf(":%d\n", cli_addr.sin_port);
-			syslog (LOG_NOTICE,":%d\n", cli_addr.sin_port);
+			syslog (LOG_INFO,":%d\n", cli_addr.sin_port);
 			close(connfd);
 			continue;
 		}
