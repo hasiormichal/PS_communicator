@@ -200,7 +200,7 @@ int daemon_init(const char *pname, int facility, uid_t uid, int socket){
         /* child 2 continues... */
        // listujPliki("/");
 //      chdir("/tmp");                          /* change working directory  or chroot()*/
-        chroot("/tmp");
+ //       chroot("/tmp");
        // syslog (LOG_INFO,"     katalog domowy po funkcji chroot     \n");
        // listujPliki("/");
 
