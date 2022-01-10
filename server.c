@@ -11,8 +11,12 @@
 #include <sys/types.h>
 #include <signal.h>
 
+#include  <netdb.h>
+#include  <fcntl.h>   
+
 #define MAX_CLIENTS 3
 #define BUFFER_SZ 2048
+#define	MAXFD	64
 
 static _Atomic unsigned int cli_count = 0;
 static int uid = 10;
