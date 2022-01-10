@@ -270,10 +270,10 @@ syslog (LOG_NOTICE, "sarted started by User %d", getuid ());
     perror("ERROR: Socket listening failed");
     return EXIT_FAILURE;
 	}
-	closelog();
+	//closelog();
 	daemon_init(argv[0], LOG_USER, 1000, listenfd);
-	setlogmask (LOG_UPTO (LOG_DEBUG));
-	openlog (argv[0], LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL7);
+	//setlogmask (LOG_UPTO (LOG_DEBUG));
+	//openlog (argv[0], LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL7);
 	syslog (LOG_NOTICE, "sarted after daemon by User %d", getuid ());
 	//printf("=== WELCOME TO THE CHATROOM ===\n");
 	syslog (LOG_NOTICE, "=== WELCOME TO THE CHATROOM ===\n");
