@@ -289,7 +289,7 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	printf("Enter computer name");
 	scanf("%s",&nazwa);
 	//fgets(nazwa,30,stdin);
-	fflush(stdin);
+	fflush();
 	printf("=== WELCOME TO THE CHATROOM ===\n");
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
