@@ -286,13 +286,13 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	if (uname(&myname) < 0)
 		perror("uname error");
 	//snprintf(line, sizeof(line), "%s, PID=%d", myname.nodename, getpid());
-	printf("podaj nazwe komputera");
+	printf("Enter computer name");
 	scanf("%s",&nazwa);
 	printf("=== WELCOME TO THE CHATROOM ===\n");
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
 		if(wiadomosc[0] != 'x'){
-			snprintf(line,sizeof(line),"%s:%s",nazwa, wiadomosc);
+			snprintf(line,sizeof(line),"%s: %s",nazwa, wiadomosc);
 			if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
 			fprintf(stderr,"sendto() error : %s\n", strerror(errno));
 			sleep(SENDRATE);
@@ -333,7 +333,7 @@ void recv_all(int recvfd, socklen_t salen){
 		      inet_ntop(AF_INET, (struct sockaddr  *) &cliaddrv4->sin_addr,  addr_str, sizeof(addr_str));
 		}
 
-		printf("%s", line);
+		printf("> %s", line);
 		fflush(stdout);
 
 	}
