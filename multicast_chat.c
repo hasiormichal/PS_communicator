@@ -303,7 +303,7 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 		fgets(wiadomosc,MAXLINE,stdin);
 		if(wiadomosc[0] != 'x'){
 			ticks = time(NULL);
-			snprintf(line,sizeof(line),"%.24s   %s: %s",ctime(&ticks),nazwa, wiadomosc);
+			snprintf(line,sizeof(line),"%.24s> %s: %s",ctime(&ticks),nazwa, wiadomosc);
 			if(sendto(sendfd, line, strlen(line), 0, sadest, salen) < 0 )
 			fprintf(stderr,"sendto() error : %s\n", strerror(errno));
 			sleep(SENDRATE);
@@ -344,7 +344,7 @@ void recv_all(int recvfd, socklen_t salen){
 		      inet_ntop(AF_INET, (struct sockaddr  *) &cliaddrv4->sin_addr,  addr_str, sizeof(addr_str));
 		}
 
-		printf("> %s", line);
+		printf("%s", line);
 		fflush(stdout);
 
 	}
