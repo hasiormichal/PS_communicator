@@ -277,6 +277,14 @@ void	send_all(int, SA *, socklen_t);
 
 #define	SENDRATE	1		/* send one datagram every five seconds */
 
+
+
+void clear (void)
+{    
+  while ( getchar() != '\n' );
+}
+
+
 void send_all(int sendfd, SA *sadest, socklen_t salen){
 	char		line[MAXLINE] = "Join the chat room";		/* hostname and process ID */
 	struct utsname	myname;
@@ -289,7 +297,8 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	printf("Enter computer name");
 	scanf("%s",&nazwa);
 	//fgets(nazwa,30,stdin);
-	fflush();
+	//fflush();
+	clear();
 	printf("=== WELCOME TO THE CHATROOM ===\n");
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
