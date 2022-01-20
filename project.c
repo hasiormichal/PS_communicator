@@ -26,10 +26,13 @@ int main(){
         else if(wybor == 3){
             execlp("/home/student/PS_communicator/chat" , "chat" , (char *)NULL);
         }
-        else if (wybor == 4)
+        else if(wybor == 4){
+            execlp("/home/student/PS_communicator/udp_daytime_srvv4_br" , "udp_daytime_srvv4_br" , (char *)NULL);
+        }
+        else if (wybor == 5)
             return 0;
         else{
-            printf("\nPodano nieepoprawna komende \n");
+            printf("\nPodano niepoprawna komende \n");
             continue;
         }
     }

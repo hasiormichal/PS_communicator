@@ -277,6 +277,7 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 	//snprintf(line, sizeof(line), "%s, PID=%d", myname.nodename, getpid());
 	printf("podaj nazwe komputera");
 	scanf("%s",&nazwa);
+	printf("=== WELCOME TO THE CHATROOM ===\n");
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
 		if(wiadomosc[0] != 'x'){
@@ -320,7 +321,7 @@ void recv_all(int recvfd, socklen_t salen){
 		      inet_ntop(AF_INET, (struct sockaddr  *) &cliaddrv4->sin_addr,  addr_str, sizeof(addr_str));
 		}
 
-		printf("Datagram from %s : %s\n", addr_str, line);
+		printf("message from: %s\n", line);
 		fflush(stdout);
 	}
 }
