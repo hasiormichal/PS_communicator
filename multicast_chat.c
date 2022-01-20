@@ -294,7 +294,7 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 }
 
 
-void recv_all(int recvfd, socklen_t salen, SA *sasend){
+void recv_all(int recvfd, socklen_t salen){
 	int					n;
 	char				line[MAXLINE+1];
 	socklen_t			len;
@@ -322,7 +322,7 @@ void recv_all(int recvfd, socklen_t salen, SA *sasend){
 		      inet_ntop(AF_INET, (struct sockaddr  *) &cliaddrv4->sin_addr,  addr_str, sizeof(addr_str));
 		}
 
-		inet_ntop(AF_INET, (struct sockaddr  *) &sasend->sin_addr,  host_addr_str, sizeof(host_addr_str));
+		inet_ntop(AF_INET, (struct sockaddr  *) &sasend->sa_data,  host_addr_str, sizeof(host_addr_str));
 		if(!(strcmp(addr_str,host_addr_str))){
 			printf("%s", line);
 			fflush(stdout);
@@ -334,13 +334,16 @@ void recv_all(int recvfd, socklen_t salen, SA *sasend){
 /////////////////////// main /////////////////////////////////////
 
 //int multicast_chat(){
+
+	struct sockaddr	*sasend, *sarecv;
+	struct sockaddr_in6 *ipv6addr;
+	struct sockaddr_in *ipv4addr;
+
 int main(){
     int sendfd, recvfd;
 	const int on = 1;
 	socklen_t salen;
-	struct sockaddr	*sasend, *sarecv;
-	struct sockaddr_in6 *ipv6addr;
-	struct sockaddr_in *ipv4addr;
+
     int choice =0;
     char adres[10] = "0.0.0.0";
     char port[5] = "0000";
