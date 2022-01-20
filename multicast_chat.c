@@ -294,7 +294,7 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 }
 
 
-void recv_all(int recvfd, socklen_t salen, sockaddr	* sasend){
+void recv_all(int recvfd, socklen_t salen, SA *sasend){
 	int					n;
 	char				line[MAXLINE+1];
 	socklen_t			len;
