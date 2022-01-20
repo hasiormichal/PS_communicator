@@ -1,4 +1,4 @@
-#define MAXLINE 1024
+#define MAXLINE 2048
 #define SA      struct sockaddr
 #define IPV6 1
 

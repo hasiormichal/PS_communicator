@@ -16,9 +16,9 @@ volatile sig_atomic_t flag = 0;
 int sockfd = 0;
 char name[32];
 
-void str_overwrite_stdout() {           //wypisanie w serwerze ruchu danych
+void str_overwrite_stdout() {           //writing out data traffic to the server
   printf("%s", "> ");
-  fflush(stdout);                       //wyczyszczenie bufora i wypisanie go
+  fflush(stdout);                       //pritn buffor
 }
 
 void str_trim_lf (char* arr, int length) {

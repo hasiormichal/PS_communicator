@@ -43,21 +43,6 @@ unsigned int _if_nametoindex(const char *ifname){
 	}
 }
 
-// #include <net/if.h>
-// unsigned int if_nametoindex(const char *ifname);
-// char *if_indextoname(unsigned int ifindex, char *ifname);
-
-
-
-	struct sockaddr	*sasend, *sarecv;
-	struct sockaddr_in6 *ipv6addr;
-	struct sockaddr_in *ipv4addr;
-
-
-
-
-
-
 int snd_udp_socket(const char *serv, int port, SA **saptr, socklen_t *lenp){
 	int sockfd, n;
 	struct addrinfo	hints, *res, *ressave;
@@ -275,8 +260,7 @@ int mcast_set_loop(int sockfd, int onoff){
 void	recv_all(int, socklen_t);
 void	send_all(int, SA *, socklen_t);
 
-#define	SENDRATE	1		/* send one datagram every five seconds */
-
+#define	SENDRATE	1		/* send one datagram every one seconds */
 
 
 void clear (void)
@@ -350,16 +334,15 @@ void recv_all(int recvfd, socklen_t salen){
 	}
 }
 
-
 /////////////////////// main /////////////////////////////////////
-
-//int multicast_chat(){
-
 int main(){
     int sendfd, recvfd;
 	const int on = 1;
 	socklen_t salen;
 
+	struct sockaddr	*sasend, *sarecv;
+	struct sockaddr_in6 *ipv6addr;
+	struct sockaddr_in *ipv4addr;
     int choice =0;
     char adres[10] = "0.0.0.0";
     char port[5] = "0000";
@@ -413,19 +396,6 @@ int main(){
 			exit(1);};
 		}
 
-		//if(sarecv->sa_family == AF_INET){
-		// ipv4addr = (struct sockaddr_in *) sarecv;
-		// ipv4addr->sin_addr.s_addr =  htonl(INADDR_ANY);
-
-		//struct in_addr        localInterface;
-		//localInterface.s_addr = inet_addr("127.0.0.1");
-		//if (setsockopt(sendfd, IPPROTO_IP, IP_MULTICAST_IF,
-		//					(char *)&localInterface,
-		//					sizeof(localInterface)) < 0) {
-		//		perror("setting local interface");
-		//		exit(1);
-		// }
-		//}
 		
 	if( bind(recvfd, sarecv, salen) < 0 ){
 		fprintf(stderr,"bind error : %s\n", strerror(errno));
@@ -438,12 +408,10 @@ int main(){
 	}
 
 	mcast_set_loop(sendfd, 1);
-
 	pid_t pid = fork();
 
 	if (pid == 0){
 		recv_all(recvfd, salen);	/* child -> receives */
-
 	}
     send_all(sendfd, sasend, salen);	/* parent -> sends */
 	kill(pid, SIGTERM);

@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 int main(){
-    //execl("/home/student/PS_communicator/client.exe" , "client" , 4444, NULL );
     int wybor = 0;
     
     while (1){
@@ -15,7 +14,7 @@ int main(){
         printf("3) czat grupowy\n");
         printf("4) wyjdz\n");
         scanf("%i",&wybor);
-        // w zależności od pobranej wartości program uruchomi odpowiedni podporogram za pomocą podanej ścieżki
+        // choosing a number depending on what program we want to run
         if(wybor == 1){
             execlp("/home/student/PS_communicator/client" , "client" ,"4444", (char *)NULL);
         }
@@ -24,8 +23,7 @@ int main(){
             execlp("/home/student/PS_communicator/server" , "server" ,"4444", (char *)NULL);
         }
         else if(wybor == 3){
-            //execlp("/home/student/PS_communicator/chat" , "chat" , (char *)NULL);
-            execlp("chat" , "chat" , (char *)NULL);
+            execlp("/home/student/PS_communicator/chat" , "chat" , (char *)NULL);
         }
         else if (wybor == 4)
             return 0;
