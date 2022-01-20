@@ -212,7 +212,8 @@ openlog (argv[0], LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL7);
 syslog (LOG_INFO, "sarted started by User %d", getuid ());
 
 //------------------------
-	char *ip = "192.168.10.2";
+	//char *ip = "192.168.10.2";
+	char *ip = addr_any
 	int port = atoi(argv[1]);
 	int option = 1;
 	int listenfd = 0, connfd = 0;
@@ -223,7 +224,8 @@ syslog (LOG_INFO, "sarted started by User %d", getuid ());
   /* Socket settings */
   listenfd = socket(AF_INET, SOCK_STREAM, 0);
   serv_addr.sin_family = AF_INET;
-  serv_addr.sin_addr.s_addr = inet_addr(ip);
+  //serv_addr.sin_addr.s_addr = inet_addr(ip);
+  serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
   serv_addr.sin_port = htons(port);
 
   /* Ignore pipe signals */

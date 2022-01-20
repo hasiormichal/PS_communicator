@@ -85,6 +85,10 @@ int main(int argc, char **argv){
 
 	signal(SIGINT, catch_ctrl_c_and_exit);
 
+	printf("Please enter server IP: ");
+    fgets(ip, 32, stdin);
+
+
 	printf("Please enter your name: ");
   fgets(name, 32, stdin);
   str_trim_lf(name, strlen(name));
