@@ -314,8 +314,6 @@ void recv_all(int recvfd, socklen_t salen){
 	struct sockaddr_in6*	 cliaddr;
 	struct sockaddr_in*	 cliaddrv4;
 	char			addr_str[INET6_ADDRSTRLEN+1];
-	char			host_addr_str[INET6_ADDRSTRLEN+1];
-	char			sarecv_addr_str[INET6_ADDRSTRLEN+1];
 
 	safrom = malloc(salen);
 	for ( ; ; ) {
@@ -325,6 +323,7 @@ void recv_all(int recvfd, socklen_t salen){
 
 		line[n] = 0;	/* null terminate */
 		
+
 		if( safrom->sa_family == AF_INET6 ){
 		      cliaddr = (struct sockaddr_in6*) safrom;
 		      inet_ntop(AF_INET6, (struct sockaddr  *) &cliaddr->sin6_addr,  addr_str, sizeof(addr_str));
@@ -334,17 +333,9 @@ void recv_all(int recvfd, socklen_t salen){
 		      inet_ntop(AF_INET, (struct sockaddr  *) &cliaddrv4->sin_addr,  addr_str, sizeof(addr_str));
 		}
 
-		inet_ntop(AF_INET, (struct sockaddr  *) &sasend->sa_data,  host_addr_str, sizeof(host_addr_str));
-		inet_ntop(AF_INET, (struct sockaddr  *) &sarecv->sa_data,  sarecv_addr_str, sizeof(sarecv_addr_str));
-		printf("host_addr_str: %s\n",host_addr_str);
-		printf("sarecv_addr_str: %s\n",sarecv_addr_str);
-		if(!(strcmp(sarecv_addr_str,host_addr_str))){
-			printf("%s", line);
-			fflush(stdout);
-			continue;
-		}
-		printf("poza if\n");
+		printf("%s", line);
 		fflush(stdout);
+
 	}
 }
 
