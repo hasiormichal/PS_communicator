@@ -213,7 +213,7 @@ syslog (LOG_INFO, "sarted started by User %d", getuid ());
 
 //------------------------
 	//char *ip = "192.168.10.2";
-	char *ip = addr_any
+	//char *ip = addr_any
 	int port = atoi(argv[1]);
 	int option = 1;
 	int listenfd = 0, connfd = 0;
