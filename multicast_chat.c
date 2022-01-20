@@ -321,7 +321,7 @@ void recv_all(int recvfd, socklen_t salen){
 		      inet_ntop(AF_INET, (struct sockaddr  *) &cliaddrv4->sin_addr,  addr_str, sizeof(addr_str));
 		}
 
-		printf("message from: %s\n", line);
+		printf("%s:", line);
 		fflush(stdout);
 	}
 }
