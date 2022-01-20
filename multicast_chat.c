@@ -334,10 +334,15 @@ void recv_all(int recvfd, socklen_t salen){
 		}
 
 		inet_ntop(AF_INET, (struct sockaddr  *) &sasend->sa_data,  host_addr_str, sizeof(host_addr_str));
+		printf("host_addr_str: %s\n",host_addr_str);
+		printf("addr_str: %s\n",addr_str);
 		if(!(strcmp(addr_str,host_addr_str))){
 			printf("%s", line);
 			fflush(stdout);
+			continue;
 		}
+		printf("poza if\n");
+		fflush(stdout);
 	}
 }
 
