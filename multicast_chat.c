@@ -287,8 +287,9 @@ void send_all(int sendfd, SA *sadest, socklen_t salen){
 		perror("uname error");
 	//snprintf(line, sizeof(line), "%s, PID=%d", myname.nodename, getpid());
 	printf("Enter computer name");
-	//scanf("%s",&nazwa);
-	fgets(nazwa,30,stdin);
+	scanf("%s",&nazwa);
+	//fgets(nazwa,30,stdin);
+	fflush(stdin);
 	printf("=== WELCOME TO THE CHATROOM ===\n");
 	for ( ; ; ) {
 		fgets(wiadomosc,MAXLINE,stdin);
