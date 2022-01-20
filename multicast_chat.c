@@ -47,6 +47,17 @@ unsigned int _if_nametoindex(const char *ifname){
 // unsigned int if_nametoindex(const char *ifname);
 // char *if_indextoname(unsigned int ifindex, char *ifname);
 
+
+
+	struct sockaddr	*sasend, *sarecv;
+	struct sockaddr_in6 *ipv6addr;
+	struct sockaddr_in *ipv4addr;
+
+
+
+
+
+
 int snd_udp_socket(const char *serv, int port, SA **saptr, socklen_t *lenp){
 	int sockfd, n;
 	struct addrinfo	hints, *res, *ressave;
@@ -334,10 +345,6 @@ void recv_all(int recvfd, socklen_t salen){
 /////////////////////// main /////////////////////////////////////
 
 //int multicast_chat(){
-
-	struct sockaddr	*sasend, *sarecv;
-	struct sockaddr_in6 *ipv6addr;
-	struct sockaddr_in *ipv4addr;
 
 int main(){
     int sendfd, recvfd;
