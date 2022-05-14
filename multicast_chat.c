@@ -1,3 +1,16 @@
+/******************************************************************************
+ * This file is a part of the PS_communicator (C).            *
+ ******************************************************************************/
+
+/*
+ * @file client.c
+ * @authors: 
+ * Michał Hasior
+ * Bartosz Kowal
+ * Jakub Górnisiewicz
+
+ * @brief File containing applications to create a multicast chat room.
+ */
 #include        <sys/types.h>   /* basic system data types */
 #include        <sys/socket.h>  /* basic socket definitions */
 #include        <netinet/in.h>  /* sockaddr_in{} and other Internet defns */
