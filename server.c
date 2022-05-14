@@ -1,3 +1,15 @@
+/******************************************************************************
+ * This file is a part of the PS_communicator (C).            *
+ ******************************************************************************/
+
+/*
+ * @authors: 
+ * Michał Hasior
+ * Bartosz Kowal
+ * Jakub Górnisiewicz
+
+ * @brief File containing user applications.
+ */
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
