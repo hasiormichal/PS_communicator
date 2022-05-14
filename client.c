@@ -1,3 +1,16 @@
+/******************************************************************************
+ * This file is a part of the PS_communicator (C).            *
+ ******************************************************************************/
+
+/*
+ * @file client.c
+ * @authors: 
+ * Michał Hasior
+ * Bartosz Kowal
+ * Jakub Górnisiewicz
+
+ * @brief File containing user applications.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
