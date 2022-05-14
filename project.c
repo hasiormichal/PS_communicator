@@ -1,3 +1,15 @@
+/******************************************************************************
+ * This file is a part of the PS_communicator (C).            *
+ ******************************************************************************/
+
+/*
+ * @authors: 
+ * Michał Hasior
+ * Bartosz Kowal
+ * Jakub Górnisiewicz
+
+ * @brief File containing the main program that allows us to choose the functionality.
+ */
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <string.h>
